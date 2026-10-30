@@ -3,7 +3,7 @@
 Fomi is a Next.js mock AI image and video generation studio for prompt-driven creative exploration.
 
 ## Live demo
-[**Open Fomi - Live Demo**](https://fomi-ai-generation.vercel.app)
+Live Demo: [**Open Fomi - Live Demo**](https://fomi-ai-generation.vercel.app)
 
 ## Repository
 Repository: https://github.com/HaleemaJ20/fomi-ai-generation
