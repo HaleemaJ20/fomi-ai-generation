@@ -4,10 +4,16 @@
 # Next.js
 /.next
 /out
+/.vercel
+
+# logs
+*.log
 
 # local environment
+.env
 .env.local
 .env*.local
+!.env.example
 
 # test output
 coverage/
@@ -15,4 +21,5 @@ coverage/
 
 # system files
 .DS_Store
+*.pem
 Thumbs.db
