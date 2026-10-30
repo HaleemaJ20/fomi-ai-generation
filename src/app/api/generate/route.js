@@ -1,7 +1,5 @@
-import { promises as fs } from 'fs';
-import path from 'path';
 import { NextResponse } from 'next/server';
-import { getHistorySeed, getModelsSeed, getStylesSeed, modelCatalog } from '@/lib/mock-data';
+import { getModelsSeed, getStylesSeed } from '@/lib/mock-data';
 import { validateGenerationPayload } from '@/lib/generation';
 import { generateMockItems } from '@/lib/mockGenerator';
 
@@ -57,16 +55,13 @@ export async function POST(request) {
   const compatibleDefaults = normalized.type === 'image' ? 'portrait-max' : 'motion-studio';
   const requestedModel = catalogModels.find((model) => model.id === normalized.model && model.supports.includes(normalized.type));
   const selectedModel = requestedModel || catalogModels.find((model) => model.id === compatibleDefaults && model.supports.includes(normalized.type));
-  if (!selectedModel) {
-    return NextResponse.json({ error: { code: 'MODEL_UNAVAILABLE', message: 'No compatible model is available.', field: 'model' } }, { status: 400 });
-  }
+  const resolvedModel = selectedModel?.id || compatibleDefaults;
 
   const styles = await getStylesSeed();
-  if (normalized.style && !styles.some((style) => style.id === normalized.style)) {
-    return NextResponse.json({ error: { code: 'STYLE_UNAVAILABLE', message: 'Selected style is unavailable.', field: 'style' } }, { status: 400 });
-  }
-
-  const resolvedModel = selectedModel.id;
+  const defaultStyle = normalized.type === 'image' ? 'portrait' : 'cinematic';
+  const resolvedStyle = styles.some((style) => style.id === normalized.style)
+    ? normalized.style
+    : defaultStyle;
 
   const delayMs = normalized.type === 'video'
     ? 3000 + Math.random() * 2000
@@ -91,7 +86,7 @@ export async function POST(request) {
       type: normalized.type,
       count: normalized.count,
       aspectRatio: normalized.aspectRatio,
-      style: normalized.style,
+      style: resolvedStyle,
       seed: normalized.advanced.seed,
       duration: requestedDuration,
     });
@@ -114,10 +109,6 @@ export async function POST(request) {
     hint: generated.hint,
     settings,
   };
-
-  const historyFile = path.join(process.cwd(), 'src', 'data', 'history.json');
-  const history = await getHistorySeed();
-  await fs.writeFile(historyFile, JSON.stringify([result, ...history], null, 2), 'utf8');
 
   return NextResponse.json(result);
 }

@@ -1,21 +1,23 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const toDataPath = (fileName) => path.join(process.cwd(), 'src', 'data', fileName);
+import historySeed from '@/data/history.json';
+import modelSeed from '@/data/models.json';
+import stylesSeed from '@/data/styles.json';
 
 export const readSeedData = async (fileName) => {
-  const filePath = toDataPath(fileName);
-  const fileContents = await fs.readFile(filePath, 'utf8');
-  return JSON.parse(fileContents);
+  const catalog = {
+    'history.json': historySeed,
+    'models.json': modelSeed,
+    'styles.json': stylesSeed,
+  };
+  return catalog[fileName] ?? [];
 };
 
-export const getHistorySeed = async () => readSeedData('history.json');
-export const getModelsSeed = async () => readSeedData('models.json');
-export const getStylesSeed = async () => readSeedData('styles.json');
+export const getHistorySeed = async () => [...historySeed];
+export const getModelsSeed = async () => [...modelSeed];
+export const getStylesSeed = async () => [...stylesSeed];
 
-export const modelCatalog = await readSeedData('models.json');
-export const styleCatalog = await readSeedData('styles.json');
-export const historyItems = await readSeedData('history.json');
+export const modelCatalog = [...modelSeed];
+export const styleCatalog = [...stylesSeed];
+export const historyItems = [...historySeed];
 
 export const resolveAspectDimensions = (aspectRatio = '1:1') => {
   const mappings = {

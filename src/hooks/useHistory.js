@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { apiClient } from '@/lib/api';
-import { readStoredGenerations, writeStoredGenerations } from '@/lib/storedGenerations';
+import { mergeGenerationSources, readStoredGenerations, writeStoredGenerations } from '@/lib/storedGenerations';
 
 export default function useHistory() {
   const [history, updateHistory] = useState([]);
@@ -31,8 +31,10 @@ export default function useHistory() {
     setError('');
     try {
       const samples = await fetchSamples(controller.signal);
-      if (!hasStoredValue.current) updateHistory(samples);
-      return samples;
+      const stored = readStoredGenerations() ?? [];
+      const merged = mergeGenerationSources(stored, samples);
+      if (!hasStoredValue.current) updateHistory(merged);
+      return merged;
     } catch (requestError) {
       if (requestError?.name !== 'AbortError') setError(requestError?.message || 'Unable to load history.');
       return null;
@@ -60,7 +62,9 @@ export default function useHistory() {
   useEffect(() => {
     const stored = readStoredGenerations();
     hasStoredValue.current = stored !== null;
-    if (stored !== null) updateHistory(stored);
+    if (stored !== null) {
+      updateHistory(mergeGenerationSources(stored, []));
+    }
     setHydrated(true);
     load();
   }, [load]);

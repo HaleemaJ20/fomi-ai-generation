@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { apiClient } from '@/lib/api';
+import { mergeGenerationSources, readStoredGenerations } from '@/lib/storedGenerations';
 
 const mockLibrary = [
   { id: 'saved-1', title: 'Sunlit portrait', type: 'image', src: '/mock/woman/Gemini_Generated_Image_5fq27c5fq27c5fq2.webp', favorite: true },
@@ -19,7 +20,8 @@ export default function LibraryPage() {
     const loadLibrary = async () => {
       try {
         const history = await apiClient.get('/api/history?limit=12');
-        const mapped = history.items.map((generation, index) => ({
+        const mergedHistory = mergeGenerationSources(readStoredGenerations() ?? [], history.items ?? []);
+        const mapped = mergedHistory.map((generation, index) => ({
           id: generation.id || `library-${index}`,
           title: generation.prompt,
           type: generation.type,

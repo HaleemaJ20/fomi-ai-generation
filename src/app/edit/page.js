@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { apiClient } from '@/lib/api';
+import { mergeGenerationSources, readStoredGenerations } from '@/lib/storedGenerations';
 
 const MAX_IMAGES = 10;
 
@@ -27,7 +28,8 @@ export default function EditPage() {
         const data = await apiClient.get('/api/history?limit=30');
         if (!active) return;
 
-        const imageItems = data.items
+        const mergedHistory = mergeGenerationSources(readStoredGenerations() ?? [], data.items ?? []);
+        const imageItems = mergedHistory
           .flatMap((generation) =>
             generation.items
               .filter((item) => (item.type || generation.type) === 'image' && item.url)

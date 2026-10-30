@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { apiClient } from '@/lib/api';
+import { mergeGenerationSources, readStoredGenerations } from '@/lib/storedGenerations';
 
 export default function GalleryPage() {
   const [filter, setFilter] = useState('all');
@@ -26,7 +27,14 @@ export default function GalleryPage() {
       const params = new URLSearchParams({ limit: '12' });
       if (nextCursor) params.set('cursor', nextCursor);
       const result = await apiClient.get(`/api/history?${params}`, { signal: controller.signal });
-      const flattened = result.items.flatMap((generation) =>
+      const seedItems = Array.isArray(result?.items) ? result.items : [];
+      const storedItems = readStoredGenerations() ?? [];
+      const merged = mergeGenerationSources(storedItems, seedItems);
+      const pageItems = merged.slice(
+        nextCursor ? merged.findIndex((entry) => entry.id === nextCursor) + 1 : 0,
+        nextCursor ? merged.findIndex((entry) => entry.id === nextCursor) + 1 + 12 : 12,
+      );
+      const flattened = pageItems.flatMap((generation) =>
         generation.items.map((item) => ({
           ...item,
           generationId: generation.id,
@@ -35,9 +43,9 @@ export default function GalleryPage() {
         })),
       );
       setItems((current) => isFirstPage ? flattened : [...current, ...flattened]);
-      setCursor(result.nextCursor);
-      requestCursorRef.current = result.nextCursor;
-      setHasMore(result.hasMore);
+      setCursor(pageItems[pageItems.length - 1]?.id ?? null);
+      requestCursorRef.current = pageItems[pageItems.length - 1]?.id ?? null;
+      setHasMore(pageItems.length === 12 && pageItems[pageItems.length - 1] && merged.length > (nextCursor ? merged.findIndex((entry) => entry.id === nextCursor) + 1 + 12 : 12));
     } catch (requestError) {
       if (!controller.signal.aborted && requestError.name !== 'AbortError') {
         setError(requestError.message || 'Unable to load gallery items.');
