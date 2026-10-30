@@ -1,0 +1,18 @@
+# dependencies
+/node_modules
+
+# Next.js
+/.next
+/out
+
+# local environment
+.env.local
+.env*.local
+
+# test output
+coverage/
+/raw-videos/
+
+# system files
+.DS_Store
+Thumbs.db

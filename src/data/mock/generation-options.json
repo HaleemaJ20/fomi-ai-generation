@@ -1,0 +1,58 @@
+{
+  "imageTypes": [
+    {
+      "label": "Realistic",
+      "value": "realistic"
+    },
+    {
+      "label": "Cartoon",
+      "value": "cartoon"
+    },
+    {
+      "label": "Abstract",
+      "value": "abstract"
+    }
+  ],
+  "videoTypes": [
+    {
+      "label": "Short Clip",
+      "value": "short_clip"
+    },
+    {
+      "label": "Loop",
+      "value": "loop"
+    },
+    {
+      "label": "Timelapse",
+      "value": "timelapse"
+    }
+  ],
+  "styles": [
+    {
+      "label": "Vintage",
+      "value": "vintage"
+    },
+    {
+      "label": "Modern",
+      "value": "modern"
+    },
+    {
+      "label": "Fantasy",
+      "value": "fantasy"
+    }
+  ],
+  "resolutions": [
+    {
+      "label": "720p",
+      "value": "720p"
+    },
+    {
+      "label": "1080p",
+      "value": "1080p"
+    },
+    {
+      "label": "4K",
+      "value": "4k"
+    }
+  ]
+}

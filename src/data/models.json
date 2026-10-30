@@ -1,0 +1,22 @@
+[
+  {
+    "id": "flux-pro",
+    "name": "Flux Pro",
+    "supports": ["image", "video"]
+  },
+  {
+    "id": "image-lab",
+    "name": "Image Lab",
+    "supports": ["image"]
+  },
+  {
+    "id": "motion-studio",
+    "name": "Motion Studio",
+    "supports": ["video"]
+  },
+  {
+    "id": "portrait-max",
+    "name": "Portrait Max",
+    "supports": ["image"]
+  }
+]

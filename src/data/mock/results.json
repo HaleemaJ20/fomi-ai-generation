@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "title": "Sunset Over the Mountains",
+    "description": "A breathtaking view of a sunset over the mountains, showcasing vibrant colors.",
+    "imageUrl": "/images/results/sunset-mountains.jpg",
+    "createdAt": "2023-10-01T12:00:00Z"
+  },
+  {
+    "id": 2,
+    "title": "Abstract Art",
+    "description": "A colorful abstract painting that evokes emotions and thoughts.",
+    "imageUrl": "/images/results/abstract-art.jpg",
+    "createdAt": "2023-10-02T14:30:00Z"
+  },
+  {
+    "id": 3,
+    "title": "City Skyline at Night",
+    "description": "A stunning view of a city skyline illuminated at night.",
+    "imageUrl": "/images/results/city-skyline-night.jpg",
+    "createdAt": "2023-10-03T18:45:00Z"
+  },
+  {
+    "id": 4,
+    "title": "Ocean Waves",
+    "description": "A serene image of ocean waves crashing against the shore.",
+    "imageUrl": "/images/results/ocean-waves.jpg",
+    "createdAt": "2023-10-04T09:15:00Z"
+  },
+  {
+    "id": 5,
+    "title": "Forest Pathway",
+    "description": "A tranquil pathway through a lush green forest.",
+    "imageUrl": "/images/results/forest-pathway.jpg",
+    "createdAt": "2023-10-05T11:00:00Z"
+  }
+]

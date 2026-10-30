@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-page-bg: #f8f1ed;
+  --color-panel: #f9e9e4;
+  --color-surface: #fff7f4;
+  --color-control: #ffffff;
+  --color-control-hover: #f3e5df;
+  --color-accent: #e8a08c;
+  --color-accent-strong: #dc8f72;
+  --color-ink: #1d1d1d;
+  --color-muted: #5d5a59;
+  --color-border: rgba(29, 29, 29, 0.08);
+  --radius-xl: 28px;
+  --radius-lg: 16px;
+  --shadow-soft: 0 18px 45px rgba(27, 21, 18, 0.08);
+}
+
+html.dark {
+  --color-page-bg: #171717;
+  --color-panel: #221f1c;
+  --color-surface: #2a2522;
+  --color-control: #34302d;
+  --color-control-hover: #403a36;
+  --color-accent: #e8a08c;
+  --color-accent-strong: #f4b59f;
+  --color-ink: #f5f1ee;
+  --color-muted: #d5c8c1;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.28);
+}
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-[var(--color-page-bg)] text-[var(--color-ink)] antialiased transition-colors duration-300;
+    font-family: var(--font-sans), sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+
+  button,
+  select,
+  input,
+  textarea {
+    font: inherit;
+  }
+
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    transition-duration: 160ms;
+    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  button:active:not(:disabled),
+  a:active {
+    transform: scale(0.98);
+  }
+
+  img,
+  video {
+    max-width: 100%;
+  }
+
+  [hidden],
+  [aria-hidden='true'] {
+    pointer-events: none;
+  }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer utilities {
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-page-bg)];
+  }
+}

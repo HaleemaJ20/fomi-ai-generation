@@ -1,0 +1,27 @@
+[
+  {
+    "id": "cinematic",
+    "name": "Cinematic",
+    "preview": "/mock/style-cinematic.svg"
+  },
+  {
+    "id": "portrait",
+    "name": "Portrait",
+    "preview": "/mock/style-portrait.svg"
+  },
+  {
+    "id": "editorial",
+    "name": "Editorial",
+    "preview": "/mock/style-editorial.svg"
+  },
+  {
+    "id": "dreamy",
+    "name": "Dreamy",
+    "preview": "/mock/style-dreamy.svg"
+  },
+  {
+    "id": "neon",
+    "name": "Neon",
+    "preview": "/mock/style-neon.svg"
+  }
+]

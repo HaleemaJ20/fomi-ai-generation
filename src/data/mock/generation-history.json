@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2023-10-01T12:00:00Z",
+    "type": "image",
+    "prompt": "A serene landscape with mountains and a lake",
+    "resultUrl": "/images/generated/image1.png",
+    "status": "completed"
+  },
+  {
+    "id": 2,
+    "timestamp": "2023-10-02T14:30:00Z",
+    "type": "video",
+    "prompt": "A time-lapse of a city skyline at sunset",
+    "resultUrl": "/videos/generated/video1.mp4",
+    "status": "completed"
+  },
+  {
+    "id": 3,
+    "timestamp": "2023-10-03T09:15:00Z",
+    "type": "image",
+    "prompt": "A futuristic city with flying cars",
+    "resultUrl": "/images/generated/image2.png",
+    "status": "completed"
+  },
+  {
+    "id": 4,
+    "timestamp": "2023-10-04T11:45:00Z",
+    "type": "image",
+    "prompt": "A fantasy forest with magical creatures",
+    "resultUrl": "/images/generated/image3.png",
+    "status": "completed"
+  },
+  {
+    "id": 5,
+    "timestamp": "2023-10-05T16:20:00Z",
+    "type": "video",
+    "prompt": "An animated journey through space",
+    "resultUrl": "/videos/generated/video2.mp4",
+    "status": "completed"
+  }
+]
