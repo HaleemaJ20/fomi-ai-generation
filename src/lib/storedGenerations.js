@@ -44,11 +44,6 @@ export function readStoredGenerations() {
   }
 }
 
-export function readMergedGenerations() {
-  const stored = readStoredGenerations();
-  return mergeGenerationSources(stored ?? [], historySeed);
-}
-
 export function writeStoredGenerations(generations) {
   if (typeof window === 'undefined') return;
   try {
@@ -56,12 +51,5 @@ export function writeStoredGenerations(generations) {
       version: STORAGE_SCHEMA_VERSION,
       generations: Array.isArray(generations) ? generations.filter(isValidGeneration) : [],
     }));
-  } catch {}
-}
-
-export function clearStoredGenerations() {
-  if (typeof window === 'undefined') return;
-  try {
-    window.localStorage.removeItem(storedGenerationsKey);
   } catch {}
 }
