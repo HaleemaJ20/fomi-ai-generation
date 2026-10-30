@@ -625,7 +625,9 @@ export default function FomiWorkspace({ initialMode = 'image' }) {
           </div>
 
           <div className="relative">
+            <label htmlFor="generation-prompt" className="mb-2 block text-sm font-medium text-[var(--color-ink)]">Prompt</label>
             <textarea
+              id="generation-prompt"
               value={prompt}
               onChange={(event) => dispatch({ type: 'SET_PROMPT', payload: event.target.value })}
               onKeyDown={(event) => {
@@ -636,6 +638,7 @@ export default function FomiWorkspace({ initialMode = 'image' }) {
               }}
               rows={5}
               placeholder={defaultPrompt}
+              aria-label="Generation prompt"
               className="w-full resize-none rounded-[18px] border border-[var(--color-ink)]/40 bg-[var(--color-surface)] p-3 text-sm text-[var(--color-ink)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)] focus:outline-none"
             />
             <button
@@ -697,7 +700,7 @@ export default function FomiWorkspace({ initialMode = 'image' }) {
                       <span className="mb-1 block">Seed</span>
                       <input value={advanced.seed || ''} onChange={(event) => dispatch({ type: 'SET_ADVANCED_FIELD', payload: { key: 'seed', value: event.target.value } })} className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-control)] px-2 py-2 text-sm text-[var(--color-ink)] outline-none focus:border-[var(--color-accent)]" />
                     </label>
-                    <button type="button" onClick={handleSeedRandomize} className="self-end rounded-xl border border-[var(--color-border)] bg-[var(--color-control)] p-2 text-[var(--color-ink)] focus-ring">
+                    <button type="button" onClick={handleSeedRandomize} aria-label="Generate a random seed" className="self-end rounded-xl border border-[var(--color-border)] bg-[var(--color-control)] p-2 text-[var(--color-ink)] focus-ring">
                       <RefreshCcw size={15} aria-hidden="true" />
                     </button>
                   </div>

@@ -140,7 +140,7 @@ const AppHeader = () => {
   return (
     <>
       <header className="sticky top-0 z-30 border-b border-[var(--color-border)] bg-[color:rgba(248,241,237,0.92)] backdrop-blur-sm dark:bg-[color:rgba(20,20,20,0.86)]">
-        <div className="mx-auto flex max-w-[1480px] items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8">
+        <div className="mx-auto flex min-w-0 max-w-[1480px] items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8">
           <Link href="/" className="flex h-11 w-11 items-center justify-center rounded-full text-2xl font-bold text-[var(--color-ink)] transition hover:scale-[1.02] focus-ring" aria-label="Go to Fomi home page">
             F
           </Link>
@@ -171,7 +171,7 @@ const AppHeader = () => {
             </div>
           </nav>
 
-          <div className="ml-auto flex items-center gap-2 sm:gap-3">
+          <div className="ml-auto flex min-w-0 items-center gap-2 sm:gap-3">
             <button type="button" onClick={openGallery} className="hidden items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-xs font-medium text-[var(--color-ink)] transition hover:bg-[var(--color-panel)] focus-ring sm:inline-flex" aria-label="Open gallery">
               <FolderOpen size={14} aria-hidden="true" />
               Gallery
@@ -238,7 +238,7 @@ const AppHeader = () => {
                       </button>
                     </div>
                   </div>
-                  <button type="button" onClick={() => setIsClearHistoryOpen(true)} className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm text-red-600 hover:bg-[var(--color-panel)] focus-ring" role="menuitem">
+                  <button type="button" onClick={() => setIsClearHistoryOpen(true)} className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm text-red-600 hover:bg-[var(--color-panel)] focus-ring" role="menuitem" aria-label="Clear generation history">
                     <span>Clear history</span>
                     <Trash2 size={14} aria-hidden="true" />
                   </button>

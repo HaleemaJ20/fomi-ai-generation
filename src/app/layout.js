@@ -12,6 +12,14 @@ const inter = Inter({
 export const metadata = {
   title: 'Fomi',
   description: 'AI image and video generation studio',
+  openGraph: {
+    title: 'Fomi',
+    description: 'AI image and video generation studio',
+  },
+};
+
+export const viewport = {
+  themeColor: '#e8a08c',
 };
 
 export default function RootLayout({ children }) {

@@ -45,7 +45,7 @@ html.dark {
     @apply min-h-screen bg-[var(--color-page-bg)] text-[var(--color-ink)] antialiased transition-colors duration-300;
     font-family: var(--font-sans), sans-serif;
     margin: 0;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   a {
