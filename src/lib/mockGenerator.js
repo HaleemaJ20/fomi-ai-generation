@@ -1,14 +1,55 @@
 import mockLibrary from '@/data/mockLibrary.json';
 import { resolveAspectDimensions } from './mock-data';
 
+const STOPWORDS = new Set(['a', 'an', 'the', 'of', 'in', 'on', 'with', 'and', 'at', 'for', 'to', 'my', 'some']);
+
 const normalizeWord = (word) => {
-  const normalized = word.toLowerCase().replace(/[^a-z0-9]/g, '').replace(/ies$/, 'y');
+  const cleaned = String(word ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  if (!cleaned) return '';
   const irregular = { women: 'woman', people: 'person', men: 'man', children: 'child', mice: 'mouse' };
-  if (irregular[normalized]) return irregular[normalized];
-  return normalized.endsWith('s') && normalized.length > 3 ? normalized.slice(0, -1) : normalized;
+  const normalized = irregular[cleaned] || cleaned.replace(/ies$/, 'y');
+  if (normalized.endsWith('ing') && normalized.length > 5) return normalized.slice(0, -3);
+  if (normalized.endsWith('ed') && normalized.length > 4) return normalized.slice(0, -2);
+  if (normalized.endsWith('s') && !normalized.endsWith('ss') && normalized.length > 3) return normalized.slice(0, -1);
+  return normalized;
 };
 
-const tokenize = (prompt) => new Set((prompt.toLowerCase().match(/[a-z0-9]+(?:-[a-z0-9]+)?/g) || []).map(normalizeWord).filter(Boolean));
+const tokenize = (prompt) => {
+  const tokens = (String(prompt || '').toLowerCase().match(/[a-z0-9]+(?:-[a-z0-9]+)?/g) || [])
+    .map(normalizeWord)
+    .filter((token) => token && !STOPWORDS.has(token));
+  return [...new Set(tokens)];
+};
+
+const buildKeywordIndex = (keyword) => {
+  const tokens = (String(keyword || '').toLowerCase().match(/[a-z0-9]+(?:-[a-z0-9]+)?/g) || [])
+    .map(normalizeWord)
+    .filter((token) => token && !STOPWORDS.has(token));
+  const bigrams = new Set();
+  for (let index = 0; index < tokens.length - 1; index += 1) {
+    bigrams.add(`${tokens[index]} ${tokens[index + 1]}`);
+  }
+  return { tokens: new Set(tokens), bigrams };
+};
+
+const scoreCategoryKeywords = (category, promptTerms, promptBigrams) => {
+  let score = 0;
+  for (const keyword of category.keywords || []) {
+    const index = buildKeywordIndex(keyword);
+    for (const term of index.tokens) {
+      if (promptTerms.has(term)) {
+        score += 2;
+        continue;
+      }
+      const stemmedMatch = [...promptTerms].some((promptTerm) => normalizeWord(promptTerm) === term);
+      if (stemmedMatch) score += 1;
+    }
+    for (const phrase of index.bigrams) {
+      if (promptBigrams.has(phrase)) score += 2;
+    }
+  }
+  return score;
+};
 
 const hashSeed = (value) => {
   let hash = 2166136261;
@@ -85,23 +126,37 @@ export const getCategoryVideoCoverage = () => (Array.isArray(mockLibrary.categor
 export const generateMockItems = ({ prompt, type, count, aspectRatio, seed, duration = 5 }) => {
   const mediaKey = type === 'video' ? 'videos' : 'images';
 
-  const promptTerms = tokenize(prompt || '');
+  const promptTerms = new Set(tokenize(prompt || ''));
+  const promptBigrams = new Set();
+  const promptTokens = tokenize(prompt || '');
+  for (let index = 0; index < promptTokens.length - 1; index += 1) {
+    promptBigrams.add(`${promptTokens[index]} ${promptTokens[index + 1]}`);
+  }
   const categories = Array.isArray(mockLibrary.categories) ? mockLibrary.categories.filter((category) => category[mediaKey]?.length) : [];
   if (!categories.length) throw new Error(type === 'video' ? 'No video samples available yet' : 'No image samples available yet');
 
-  const scoredCategories = categories
-    .map((category) => {
-      const keywordTerms = new Set((category.keywords || []).map(normalizeWord).filter(Boolean));
-      const score = [...promptTerms].reduce((total, term) => total + (keywordTerms.has(term) ? 1 : 0), 0);
-      return { category, score };
-    })
-    .sort((left, right) => right.score - left.score || left.category.id.localeCompare(right.category.id));
-
-  const matched = scoredCategories.filter((entry) => entry.score > 0);
-  const rankedCategories = matched.length ? matched : scoredCategories;
-  const matchedCategories = matched.map((entry) => entry.category.id);
   const requestedOrientation = orientationForRatio(aspectRatio);
   const baseSeed = `${seed ?? ''}:${String(prompt || '').toLowerCase()}:${aspectRatio}`;
+
+  const scoredCategories = categories
+    .map((category) => ({ category, score: scoreCategoryKeywords(category, promptTerms, promptBigrams) }));
+
+  const rankedByScore = [...scoredCategories].sort((left, right) => right.score - left.score);
+  const sortedCategories = [];
+  for (let index = 0; index < rankedByScore.length; index += 1) {
+    const currentScore = rankedByScore[index].score;
+    const bucket = [];
+    while (index < rankedByScore.length && rankedByScore[index].score === currentScore) {
+      bucket.push(rankedByScore[index]);
+      index += 1;
+    }
+    sortedCategories.push(...seededShuffle(bucket, `${baseSeed}:score-${currentScore}`));
+    index -= 1;
+  }
+
+  const matched = sortedCategories.filter((entry) => entry.score > 0);
+  const rankedCategories = matched.length ? matched : sortedCategories;
+  const matchedCategories = matched.map((entry) => entry.category.id);
   const selected = [];
   const selectedIds = new Set();
 
