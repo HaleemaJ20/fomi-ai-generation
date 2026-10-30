@@ -3,13 +3,10 @@
 Fomi is a Next.js mock AI image and video generation studio for prompt-driven creative exploration.
 
 ## Live demo
-Live demo: (add Vercel URL after deployment)
+[**Open Fomi - Live Demo**](https://fomi-ai-generation.vercel.app)
 
 ## Repository
 Repository: https://github.com/HaleemaJ20/fomi-ai-generation
-
-## Screenshots
-No screenshot files are currently present in `docs/screenshots/`; the folder only contains `.gitkeep`.
 
 ## Features
 - Prompt-driven image and video generation with mode switching between image and video flows.
@@ -240,8 +237,3 @@ fomi-assessment/
 - The app is designed around mock data and local browser persistence; it does not include a real backend database or authentication flow.
 - The initial asset library depends on the local `fetch:mock` script and an Unsplash API key.
 - The app can generate realistic mock results, but it does not call a live image or video model by default.
-
-## README claims that could not be verified from the code
-- The final live Vercel URL after deployment.
-- Any screenshot files beyond the `.gitkeep` placeholder currently present in `docs/screenshots/`.
-- Whether the project is intended to keep additional hidden runtime environment variables outside the current mock asset flow.
