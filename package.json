@@ -4,14 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node --max-old-space-size=4096 ./node_modules/next/dist/bin/next build",
     "start": "next start",
     "lint": "next lint",
     "fetch:mock": "node --env-file=.env.local scripts/fetch-mock-assets.mjs",
-    "build:videos": "node scripts/build-video-assets.mjs"
+    "build:videos": "node scripts/build-video-assets.mjs",
+    "build:studio": "node scripts/build-studio-families.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.469.0",
+    "motion": "^14.9.0",
     "next": "14.2.15",
     "react": "18.3.1",
     "react-dom": "18.3.1",

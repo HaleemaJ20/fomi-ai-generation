@@ -1,0 +1,236 @@
+[
+  {
+    "id": "city",
+    "title": "City",
+    "base": {
+      "id": "city:base",
+      "url": "/mock/studio/city/base.webp",
+      "width": 2752,
+      "height": 1536,
+      "knob": null,
+      "value": null
+    },
+    "images": [
+      {
+        "id": "city:environment-snow",
+        "url": "/mock/studio/city/environment-snow.webp",
+        "width": 2752,
+        "height": 1536,
+        "knob": "environment",
+        "value": "snow"
+      },
+      {
+        "id": "city:lighting-moonlight",
+        "url": "/mock/studio/city/lighting-moonlight.webp",
+        "width": 2752,
+        "height": 1536,
+        "knob": "lighting",
+        "value": "moonlight"
+      },
+      {
+        "id": "city:lighting-sunset",
+        "url": "/mock/studio/city/lighting-sunset.webp",
+        "width": 2752,
+        "height": 1536,
+        "knob": "lighting",
+        "value": "sunset"
+      },
+      {
+        "id": "city:style-infrared",
+        "url": "/mock/studio/city/style-infrared.webp",
+        "width": 2752,
+        "height": 1536,
+        "knob": "style",
+        "value": "infrared"
+      },
+      {
+        "id": "city:style-monochrome",
+        "url": "/mock/studio/city/style-monochrome.webp",
+        "width": 2752,
+        "height": 1536,
+        "knob": "style",
+        "value": "monochrome"
+      },
+      {
+        "id": "city:style-oil-painting",
+        "url": "/mock/studio/city/style-oil-painting.webp",
+        "width": 2752,
+        "height": 1536,
+        "knob": "style",
+        "value": "oil-painting"
+      },
+      {
+        "id": "city:style-surrealism",
+        "url": "/mock/studio/city/style-surrealism.webp",
+        "width": 2752,
+        "height": 1536,
+        "knob": "style",
+        "value": "surrealism"
+      },
+      {
+        "id": "city:style-watercolor",
+        "url": "/mock/studio/city/style-watercolor.webp",
+        "width": 2752,
+        "height": 1536,
+        "knob": "style",
+        "value": "watercolor"
+      }
+    ]
+  },
+  {
+    "id": "landscape",
+    "title": "Landscape",
+    "base": {
+      "id": "landscape:base",
+      "url": "/mock/studio/landscape/base.webp",
+      "width": 2528,
+      "height": 1696,
+      "knob": null,
+      "value": null
+    },
+    "images": [
+      {
+        "id": "landscape:environment-snow",
+        "url": "/mock/studio/landscape/environment-snow.webp",
+        "width": 2528,
+        "height": 1696,
+        "knob": "environment",
+        "value": "snow"
+      },
+      {
+        "id": "landscape:lighting-moonlight",
+        "url": "/mock/studio/landscape/lighting-moonlight.webp",
+        "width": 2528,
+        "height": 1696,
+        "knob": "lighting",
+        "value": "moonlight"
+      },
+      {
+        "id": "landscape:lighting-sunset",
+        "url": "/mock/studio/landscape/lighting-sunset.webp",
+        "width": 2528,
+        "height": 1696,
+        "knob": "lighting",
+        "value": "sunset"
+      },
+      {
+        "id": "landscape:style-infrared",
+        "url": "/mock/studio/landscape/style-infrared.webp",
+        "width": 2528,
+        "height": 1696,
+        "knob": "style",
+        "value": "infrared"
+      },
+      {
+        "id": "landscape:style-monochrome",
+        "url": "/mock/studio/landscape/style-monochrome.webp",
+        "width": 2528,
+        "height": 1696,
+        "knob": "style",
+        "value": "monochrome"
+      },
+      {
+        "id": "landscape:style-oil-painting",
+        "url": "/mock/studio/landscape/style-oil-painting.webp",
+        "width": 2528,
+        "height": 1696,
+        "knob": "style",
+        "value": "oil-painting"
+      },
+      {
+        "id": "landscape:style-surrealism",
+        "url": "/mock/studio/landscape/style-surrealism.webp",
+        "width": 2528,
+        "height": 1696,
+        "knob": "style",
+        "value": "surrealism"
+      },
+      {
+        "id": "landscape:style-watercolor",
+        "url": "/mock/studio/landscape/style-watercolor.webp",
+        "width": 2528,
+        "height": 1696,
+        "knob": "style",
+        "value": "watercolor"
+      }
+    ]
+  },
+  {
+    "id": "portrait",
+    "title": "Portrait",
+    "base": {
+      "id": "portrait:base",
+      "url": "/mock/studio/portrait/base.webp",
+      "width": 2048,
+      "height": 2048,
+      "knob": null,
+      "value": null
+    },
+    "images": [
+      {
+        "id": "portrait:environment-snow",
+        "url": "/mock/studio/portrait/environment-snow.webp",
+        "width": 2048,
+        "height": 2048,
+        "knob": "environment",
+        "value": "snow"
+      },
+      {
+        "id": "portrait:lighting-moonlight",
+        "url": "/mock/studio/portrait/lighting-moonlight.webp",
+        "width": 2048,
+        "height": 2048,
+        "knob": "lighting",
+        "value": "moonlight"
+      },
+      {
+        "id": "portrait:lighting-sunset",
+        "url": "/mock/studio/portrait/lighting-sunset.webp",
+        "width": 2048,
+        "height": 2048,
+        "knob": "lighting",
+        "value": "sunset"
+      },
+      {
+        "id": "portrait:style-infrared",
+        "url": "/mock/studio/portrait/style-infrared.webp",
+        "width": 2048,
+        "height": 2048,
+        "knob": "style",
+        "value": "infrared"
+      },
+      {
+        "id": "portrait:style-monochrome",
+        "url": "/mock/studio/portrait/style-monochrome.webp",
+        "width": 2048,
+        "height": 2048,
+        "knob": "style",
+        "value": "monochrome"
+      },
+      {
+        "id": "portrait:style-oil-painting",
+        "url": "/mock/studio/portrait/style-oil-painting.webp",
+        "width": 2048,
+        "height": 2048,
+        "knob": "style",
+        "value": "oil-painting"
+      },
+      {
+        "id": "portrait:style-surrealism",
+        "url": "/mock/studio/portrait/style-surrealism.webp",
+        "width": 2048,
+        "height": 2048,
+        "knob": "style",
+        "value": "surrealism"
+      },
+      {
+        "id": "portrait:style-watercolor",
+        "url": "/mock/studio/portrait/style-watercolor.webp",
+        "width": 2048,
+        "height": 2048,
+        "knob": "style",
+        "value": "watercolor"
+      }
+    ]
+  }
+]

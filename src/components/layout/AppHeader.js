@@ -13,6 +13,7 @@ const navItems = [
   { href: '/video', label: 'Video', icon: Video },
   { href: '/edit', label: 'Edit', icon: Wand2 },
   { href: '/library', label: 'Library', icon: FolderOpen },
+  { href: '/studio', label: 'Studio', icon: Sparkles },
 ];
 
 const initialSettings = {
