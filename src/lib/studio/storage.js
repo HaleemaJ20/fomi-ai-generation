@@ -19,8 +19,12 @@ const isImageKnown = (imageId) => {
 };
 
 export const normalizeProjects = (projects) => {
-  if (!Array.isArray(projects) || projects.length === 0) {
+  if (!Array.isArray(projects)) {
     return createSeedProjects(families);
+  }
+
+  if (projects.length === 0) {
+    return [];
   }
 
   const validProjects = [];

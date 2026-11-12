@@ -52,6 +52,13 @@
 
 .studio-stage {
   min-height: 0;
+  touch-action: none;
+}
+
+.studio-stage-content {
+  transform: translate(var(--stage-pan-x, 0px), var(--stage-pan-y, 0px)) scale(var(--stage-scale, 1));
+  transform-origin: center;
+  will-change: transform;
 }
 
 .studio-inspector,
@@ -290,6 +297,17 @@
     justify-content: flex-start;
     padding-left: 0.8rem;
     text-align: left;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .studio-root *,
+    .studio-root *::before,
+    .studio-root *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 

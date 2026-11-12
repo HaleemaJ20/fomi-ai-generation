@@ -118,9 +118,10 @@ export const createSeedProjects = (families = []) => {
     const preferredImages = getPreferredVariationOrder(family);
     const usedImageIds = new Set([family.base.id]);
     const children = [];
+    const maxChildren = Math.min(3, preferredImages.length || 0);
 
     for (const image of preferredImages) {
-      if (children.length >= 3) {
+      if (children.length >= maxChildren) {
         break;
       }
 

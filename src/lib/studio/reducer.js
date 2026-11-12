@@ -101,7 +101,7 @@ export const makeInitialStudioState = (seedProjects = createSeedProjects(familie
 export const studioReducer = (state = makeInitialStudioState(), action = {}) => {
   switch (action.type) {
     case 'HYDRATE': {
-      const nextProjects = Array.isArray(action.payload) && action.payload.length ? action.payload : state.projects;
+      const nextProjects = Array.isArray(action.payload) ? action.payload : state.projects;
       return {
         ...state,
         projects: nextProjects,

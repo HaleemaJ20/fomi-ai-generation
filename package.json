@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node --max-old-space-size=4096 ./node_modules/next/dist/bin/next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "fetch:mock": "node --env-file=.env.local scripts/fetch-mock-assets.mjs",
@@ -12,6 +12,7 @@
     "build:studio": "node scripts/build-studio-families.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "lucide-react": "^0.469.0",
     "motion": "^14.9.0",
     "next": "14.2.15",
