@@ -97,14 +97,16 @@ try {
       continue;
     }
 
-    const dimensions = new Set(
-      [baseImage.width, ...images.map((image) => image.width)]
-        .map((width) => `${width}x${baseImage.height}`)
-        .concat(images.map((image) => `${image.width}x${image.height}`))
+    const mismatchedImages = images.filter(
+      (image) => image.width !== baseImage.width || image.height !== baseImage.height,
     );
 
-    if (dimensions.size > 1) {
-      console.warn(`Warning: Family "${entry}" does not use a consistent image size across all variants.`);
+    if (mismatchedImages.length > 0) {
+      console.warn(
+        `Warning: Family "${entry}" has image dimensions that differ from its base image (${baseImage.width}x${baseImage.height}): ${mismatchedImages
+          .map((image) => `${image.id} ${image.width}x${image.height}`)
+          .join(', ')}`,
+      );
     }
 
     families.push({
@@ -145,6 +147,18 @@ for (const family of families) {
     .join(' | ');
 
   console.log(`${family.id.padEnd(12)} ${String(family.images.length).padStart(8)} ${summary || 'none'}`);
+}
+
+console.log('\nStudio family image dimensions');
+for (const family of families) {
+  const images = [family.base, ...family.images];
+  const baseDimensions = `${family.base.width}x${family.base.height}`;
+  console.log(`${family.id} (base ${baseDimensions})`);
+  for (const image of images) {
+    const dimensions = `${image.width}x${image.height}`;
+    const mismatch = dimensions === baseDimensions ? '' : ' (mismatch)';
+    console.log(`  ${image.id}: ${dimensions}${mismatch}`);
+  }
 }
 
 console.log(`\nWrote ${families.length} families to ${path.relative(process.cwd(), outputFile)}`);

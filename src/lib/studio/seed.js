@@ -62,21 +62,22 @@ const createTimestamp = (projectIndex, nodeOffset = 0) =>
   new Date(Date.UTC(2024, 0, 1 + projectIndex, 9 + nodeOffset, 15)).toISOString();
 
 const describePrompt = (familyTitle, image) => {
+  const familyName = familyTitle.toLowerCase();
   const valueLabel = formatValue(image.value);
 
   if (image.knob === 'lighting') {
-    return `A ${familyTitle} scene in ${valueLabel.toLowerCase()} light`;
+    return `A ${familyName} scene in ${valueLabel.toLowerCase()} light`;
   }
 
   if (image.knob === 'style') {
-    return `A ${familyTitle} scene with ${valueLabel} treatment`;
+    return `A ${familyName} scene with ${valueLabel} treatment`;
   }
 
   if (image.knob === 'environment') {
-    return `A ${familyTitle} scene with ${valueLabel.toLowerCase()} conditions`;
+    return `A ${familyName} scene with ${valueLabel.toLowerCase()} conditions`;
   }
 
-  return `A ${familyTitle} scene with ${valueLabel} detail`;
+  return `A ${familyName} scene with ${valueLabel} detail`;
 };
 
 export const createSeedProjects = (families = []) => {
@@ -91,7 +92,7 @@ export const createSeedProjects = (families = []) => {
       projectId,
       parentId: null,
       imageId: family.base.id,
-      prompt: `A ${family.title} scene in natural light`,
+      prompt: `A ${family.title.toLowerCase()} scene in natural light`,
       settings: {
         model: 'Fomi Studio',
         ratio: ratioLabel(family.base.width, family.base.height),
@@ -106,7 +107,7 @@ export const createSeedProjects = (families = []) => {
 
     const project = createProject({
       id: projectId,
-      name: `${family.title} Seed`,
+      name: `${family.title} study`,
       familyId: family.id,
       rootNodeId: rootNode.id,
       currentNodeId: rootNode.id,

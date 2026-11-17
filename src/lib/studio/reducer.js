@@ -54,6 +54,28 @@ const ensureProjectNode = (project, nodeId) => {
   return project.nodes.find((node) => node.id === nodeId) ?? null;
 };
 
+const getProjectPath = (project, nodeId) => {
+  const path = [];
+  const nodeMap = new Map(project.nodes.map((node) => [node.id, node]));
+  let current = nodeMap.get(nodeId) ?? null;
+
+  while (current) {
+    path.unshift(current);
+    current = current.parentId ? nodeMap.get(current.parentId) ?? null : null;
+  }
+
+  return path;
+};
+
+const reconcileTrailLeafIds = (projects, trailLeafIds = {}) =>
+  Object.fromEntries(
+    projects.map((project) => {
+      const trailLeafId = trailLeafIds[project.id];
+      const isValid = project.nodes.some((node) => node.id === trailLeafId);
+      return [project.id, isValid ? trailLeafId : project.currentNodeId ?? project.rootNodeId ?? project.nodes[0]?.id ?? null];
+    }),
+  );
+
 const removeSubtree = (project, nodeId) => {
   const subtree = new Set();
   const queue = [nodeId];
@@ -90,6 +112,7 @@ const removeSubtree = (project, nodeId) => {
 export const makeInitialStudioState = (seedProjects = createSeedProjects(families)) => ({
   projects: seedProjects,
   activeProjectId: seedProjects[0]?.id ?? null,
+  trailLeafIds: Object.fromEntries(seedProjects.map((project) => [project.id, project.currentNodeId])),
   armedKnob: null,
   compare: null,
   panels: { inspectorOpen: true, lineageHeight: 280, sheet: 'lineage' },
@@ -106,6 +129,7 @@ export const studioReducer = (state = makeInitialStudioState(), action = {}) => 
         ...state,
         projects: nextProjects,
         activeProjectId: nextProjects[0]?.id ?? null,
+        trailLeafIds: Object.fromEntries(nextProjects.map((project) => [project.id, project.currentNodeId])),
         saveStatus: 'saved',
         toast: null,
       };
@@ -131,9 +155,16 @@ export const studioReducer = (state = makeInitialStudioState(), action = {}) => 
         return state;
       }
 
+      const trailLeafId = state.trailLeafIds?.[project.id] ?? project.currentNodeId;
+      const isOnTrail = getProjectPath(project, trailLeafId).some((node) => node.id === selectedNode.id);
+
       return {
         ...state,
         activeProjectId: project.id,
+        trailLeafIds: {
+          ...state.trailLeafIds,
+          [project.id]: isOnTrail ? trailLeafId : selectedNode.id,
+        },
         projects: state.projects.map((entry) =>
           entry.id === project.id ? { ...entry, currentNodeId: selectedNode.id, updatedAt: new Date().toISOString() } : entry,
         ),
@@ -149,6 +180,10 @@ export const studioReducer = (state = makeInitialStudioState(), action = {}) => 
         ...state,
         projects: [...state.projects, nextProject],
         activeProjectId: nextProject.id,
+        trailLeafIds: {
+          ...state.trailLeafIds,
+          [nextProject.id]: nextProject.currentNodeId ?? nextProject.rootNodeId,
+        },
         history: {
           past: [...(state.history?.past ?? []), { projects: state.projects, activeProjectId: state.activeProjectId }].slice(-30),
           future: [],
@@ -177,6 +212,10 @@ export const studioReducer = (state = makeInitialStudioState(), action = {}) => 
         ...state,
         projects: [...state.projects, duplicate],
         activeProjectId: duplicate.id,
+        trailLeafIds: {
+          ...state.trailLeafIds,
+          [duplicate.id]: duplicate.currentNodeId,
+        },
       });
     }
     case 'DELETE_PROJECT': {
@@ -189,6 +228,7 @@ export const studioReducer = (state = makeInitialStudioState(), action = {}) => 
         ...state,
         projects: remainingProjects,
         activeProjectId: remainingProjects[0]?.id ?? null,
+        trailLeafIds: reconcileTrailLeafIds(remainingProjects, state.trailLeafIds),
       });
     }
     case 'ADD_FORKED_NODES': {
@@ -209,6 +249,10 @@ export const studioReducer = (state = makeInitialStudioState(), action = {}) => 
         ...state,
         projects: state.projects.map((entry) => (entry.id === projectId ? nextProject : entry)),
         activeProjectId: projectId,
+        trailLeafIds: {
+          ...state.trailLeafIds,
+          [projectId]: nodes[0].id,
+        },
       });
     }
     case 'DELETE_NODE': {
@@ -223,6 +267,10 @@ export const studioReducer = (state = makeInitialStudioState(), action = {}) => 
         ...state,
         projects: state.projects.map((entry) => (entry.id === projectId ? nextProject : entry)),
         activeProjectId: projectId,
+        trailLeafIds: reconcileTrailLeafIds(
+          state.projects.map((entry) => (entry.id === projectId ? nextProject : entry)),
+          state.trailLeafIds,
+        ),
       });
     }
     case 'EDIT_PROMPT': {
@@ -345,6 +393,7 @@ export const studioReducer = (state = makeInitialStudioState(), action = {}) => 
         ...state,
         projects: seed,
         activeProjectId: seed[0]?.id ?? null,
+        trailLeafIds: Object.fromEntries(seed.map((project) => [project.id, project.currentNodeId])),
         armedKnob: null,
         compare: null,
         panels: { inspectorOpen: true, lineageHeight: 280, sheet: 'lineage' },
@@ -364,6 +413,7 @@ export const studioReducer = (state = makeInitialStudioState(), action = {}) => 
         ...state,
         projects: previous.projects,
         activeProjectId: previous.activeProjectId,
+        trailLeafIds: reconcileTrailLeafIds(previous.projects, state.trailLeafIds),
         history: {
           past: state.history.past.slice(0, -1),
           future: [{ projects: state.projects, activeProjectId: state.activeProjectId }, ...(state.history?.future ?? [])].slice(0, 30),
@@ -380,6 +430,7 @@ export const studioReducer = (state = makeInitialStudioState(), action = {}) => 
         ...state,
         projects: next.projects,
         activeProjectId: next.activeProjectId,
+        trailLeafIds: reconcileTrailLeafIds(next.projects, state.trailLeafIds),
         history: {
           past: [...(state.history?.past ?? []), { projects: state.projects, activeProjectId: state.activeProjectId }].slice(-30),
           future: state.history.future.slice(1),
